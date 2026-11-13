@@ -6449,6 +6449,13 @@ void func_8083C148(Player* this, PlayState* play) {
  * even if they occur.
  */
 s32 Player_ActionHandler_Roll(Player* this, PlayState* play) {
+    // Xbox Y is mapped to the N64 C-Up input. Use it for a manual jump.
+    if (CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
+        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+        !(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) && !sUpperBodyIsBusy) {
+        func_808389E8(this, &gPlayerAnim_link_normal_jump, 12.0f, play);
+        return true;
+    }
     if (!Player_UpdateHostileLockOn(this) && !sUpperBodyIsBusy && !(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) &&
         CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
         if (Player_TryRoll(this, play)) {
