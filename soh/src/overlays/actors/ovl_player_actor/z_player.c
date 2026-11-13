@@ -4038,10 +4038,8 @@ s32 Player_GetMovementSpeedAndYaw(Player* this, f32* outSpeedTarget, s16* outYaw
         *outYawTarget += Camera_GetInputDirYaw(GET_ACTIVE_CAM(play));
 
         // Hold Xbox A after initiating a roll to accelerate Link's grounded movement.
-        if ((this->actor.category == ACTORCAT_PLAYER) &&
-            (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-            !(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) &&
-            CHECK_BTN_ALL(sControlInput->cur.button, BTN_A)) {
+        if ((this->actor.category == ACTORCAT_PLAYER) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+            !(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) && CHECK_BTN_ALL(sControlInput->cur.button, BTN_A)) {
             *outSpeedTarget *= 1.5f;
         }
 
@@ -6459,8 +6457,7 @@ void func_8083C148(Player* this, PlayState* play) {
  */
 s32 Player_ActionHandler_Roll(Player* this, PlayState* play) {
     // Xbox Y (N64 C-Up) triggers a manual jump while Link is grounded.
-    if (CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
-        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+    if (CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
         !(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) && !sUpperBodyIsBusy) {
         func_808389E8(this, &gPlayerAnim_link_normal_jump, 12.0f, play);
         return true;
