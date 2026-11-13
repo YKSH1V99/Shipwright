@@ -4036,6 +4036,15 @@ s32 Player_GetMovementSpeedAndYaw(Player* this, f32* outSpeedTarget, s16* outYaw
         return false;
     } else {
         *outYawTarget += Camera_GetInputDirYaw(GET_ACTIVE_CAM(play));
+
+        // Hold Xbox A after initiating a roll to accelerate Link's grounded movement.
+        if ((this->actor.category == ACTORCAT_PLAYER) &&
+            (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+            !(this->stateFlags1 & PLAYER_STATE1_ON_HORSE) &&
+            CHECK_BTN_ALL(sControlInput->cur.button, BTN_A)) {
+            *outSpeedTarget *= 1.5f;
+        }
+
         return true;
     }
 }
